@@ -1,4 +1,4 @@
-import { GET_PROFILE, GET_PROFILES, GET_REPOS, UPDATE_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from "../actions/types";
+import { GET_PROFILE, GET_PROFILES, GET_REPOS, UPDATE_PROFILE, PROFILE_ERROR, CLEAR_PROFILE, UPDATE_FOLLOWERS } from "../actions/types";
 
 const initialState = {
     profile: null,
@@ -44,6 +44,14 @@ function profileReducer(state = initialState, action) {
                 repos: payload,
                 loading: false
             };
+        case UPDATE_FOLLOWERS:
+            return {
+                ...state,
+                profiles: state.profiles.map(
+                    profile => profile._id === payload.id ? { ...profile, followers: payload.followers } : profile
+                ),
+                loading: false
+            }
         default:
             return state;
     }

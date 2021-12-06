@@ -1,7 +1,7 @@
 import axios from 'axios';
 import setAlert from "./alert";
 
-import { GET_PROFILE, GET_PROFILES, GET_REPOS, UPDATE_PROFILE, CLEAR_PROFILE, PROFILE_ERROR, ACCOUNT_DELETED } from './types';
+import { GET_PROFILE, GET_PROFILES, GET_REPOS, UPDATE_PROFILE, CLEAR_PROFILE, PROFILE_ERROR, ACCOUNT_DELETED, UPDATE_FOLLOWERS } from './types';
 
 // Get current user profile
 const getCurrentProfile = () => async dispatch => {
@@ -103,6 +103,40 @@ const createProfile = ( formData, history, edit = false ) => async dispatch => {
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
         }
 
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    }
+}
+
+// Add follower
+const addFollower = id => async dispatch => {
+    try {
+        const res = await axios.put(`/api/profile/follow/${id}`);
+
+        dispatch({
+            type: UPDATE_FOLLOWERS,
+            payload: { id, followers: res.data}
+        });
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    }
+}
+
+// Remove follower
+const removeFollower = id => async dispatch => {
+    try {
+        const res = await axios.put(`/api/profile/unfollow/${id}`);
+
+        dispatch({
+            type: UPDATE_FOLLOWERS,
+            payload: { id, followers: res.data}
+        });
+    } catch (err) {
         dispatch({
             type: PROFILE_ERROR,
             payload: { msg: err.response.statusText, status: err.response.status }
@@ -231,4 +265,4 @@ const deleteAccount = id => async dispatch => {
     }
 }
 
-export { getCurrentProfile, getProfiles, getProfileById, getGithubRepos, createProfile, addExperience, deleteExperience, addEducation, deleteEducation, deleteAccount };
+export { getCurrentProfile, getProfiles, getProfileById, getGithubRepos, createProfile, addFollower, removeFollower, addExperience, deleteExperience, addEducation, deleteEducation, deleteAccount };

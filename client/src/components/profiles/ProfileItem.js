@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ProfileFollowers from './ProfileFollowers';
 
 const ProfileItem = ({
     profile: {
-        user: { _id, name, avatar },
+        _id,
+        followers,
+        user,
         status,
         company,
         location,
@@ -13,14 +16,14 @@ const ProfileItem = ({
 }) => {
     return (
         <div className="profile bg-light">
-            <img src={avatar} alt="" className="round-img" />
+            <img src={user.avatar} alt="" className="round-img" />
             <div>
-                <h2>{name}</h2>
+                <h2>{user.name}</h2>
                 <p>
                     { status } { company && <span> at {company} </span> }
                 </p>
                 <p className="my-1">{ location && <span>{ location }</span> }</p>
-                <Link to={`/profile/${_id}`} className="btn btn-primary">
+                <Link to={`/profile/${user._id}`} className="btn btn-primary">
                     View Profile
                 </Link>
             </div>
@@ -33,6 +36,7 @@ const ProfileItem = ({
                     ))
                 }
             </ul>
+            <ProfileFollowers profile={{ _id, followers, user }} />
         </div>
     )
 }

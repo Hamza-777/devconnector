@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import ProfileTop from './ProfileTop';
+import ProfileFollowers from './ProfileFollowers';
 import ProfileAbout from './ProfileAbout';
 import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
@@ -29,6 +30,11 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth, match })
                     }
                     <div className="profile-grid my-1">
                         <ProfileTop profile={profile} />
+                        {
+                            auth.isAuthenticated && auth.loading === false && (
+                                <ProfileFollowers profile={profile} />
+                            )
+                        }
                         <ProfileAbout profile={profile} />
                         <div className="profile-exp bg-white p-2">
                             <h2 className="text-primary">Experience</h2>
