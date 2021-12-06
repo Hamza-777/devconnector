@@ -12,7 +12,7 @@ const ProfileFollowers = ({ auth, addFollower, removeFollower, profile: { _id, f
                         Followers: <span>{followers.length}</span>
                     </p>
                     {
-                        auth.user._id !== user._id && (
+                        auth.isAuthenticated && auth.loading === false && auth.user._id !== user._id && (
                             <div className="follow-buttons">
                                 <button onClick={e => addFollower(_id)} type="button" className="btn btn-primary">
                                     FOLLOW

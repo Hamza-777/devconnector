@@ -215,6 +215,24 @@ router.put('/unfollow/:id', auth, async (req, res) => {
     }
 });
 
+// @route  GET api/profile/followers/:id
+// @desc   Get all followers of a profile by id
+// @access Public
+
+router.get('/followers/:id', async (req, res) => {
+    try {
+        const profile = await Profile.findById(req.params.id);
+        const followers = [];
+        for(let i = 0; i < profile.followers.length; i++) {
+            followers.push(await User.findById(profile.followers[i].user).select("name avatar"));
+        }
+        res.json(followers);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
 // @route  PUT api/profile/experience
 // @desc   Add profile experience
 // @access Private

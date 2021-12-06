@@ -360,6 +360,12 @@ button {
   margin-bottom: 1rem;
 }
 
+.profile .profile-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 /* Profile Page */
 .profile-grid {
   display: grid;
